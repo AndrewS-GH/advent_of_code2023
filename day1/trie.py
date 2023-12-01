@@ -27,4 +27,3 @@ class Trie:
                 return False, False
     
         return node.is_end_of_word, bool(node.children)
-
