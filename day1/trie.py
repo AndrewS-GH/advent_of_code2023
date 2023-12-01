@@ -1,3 +1,5 @@
+from typing import Optional
+
 class Node:
     def __init__(self):
         self.children = {}
@@ -18,12 +20,12 @@ class Trie:
             node = node.children[char]
         node.is_end_of_word = True
     
-    def search(self, phrase: str) -> tuple[bool, bool]:
-        # returns (is_word, is_prefix)
+    def get_first_word(self, phrase: str) -> Optional[str]:
+        # returns first word or None
         node = self._root
-        for char in phrase:
+        for i, char in enumerate(phrase):
             node = node.children.get(char)
             if not node:
-                return False, False
-    
-        return node.is_end_of_word, bool(node.children)
+                return None
+            if node.is_end_of_word:
+                return phrase[:i+1]
