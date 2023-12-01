@@ -1,3 +1,5 @@
+from typing import Callable
+
 """ part one """
 def get_first_digit(s: str) -> str:
     for char in s:
@@ -31,29 +33,23 @@ numbers_mapping_backwards = {k[::-1]: v for k, v in numbers_mapping.items()}
 trie_forwards = Trie(numbers_mapping.keys())
 trie_backwards = Trie(numbers_mapping_backwards.keys())
 
-shortest_word = len(min(numbers_mapping, key=len))
-
-
-def get_first_digit_v2(s: str, trie: Trie, numbers_mapping: dict[str, int], shortest_word: int = 1) -> str:
+def get_first_digit_v2(s: str, get_first_word: Callable, numbers_mapping: dict[str, int]) -> str:
     for i in range(len(s)):
         if s[i].isdigit():
             return s[i]
         
-        for j in range(i+shortest_word, len(s)):
-            phrase = s[i:j]
-            is_word, is_prefix = trie.search(phrase)
-            if is_word:
-                return numbers_mapping[phrase]
-            if not is_prefix:
-                break
+        word = get_first_word(s[i:])
+        if word:
+            return numbers_mapping[word]
+
     return "0"
 
 
 with open('calibration', 'r') as fp:
     total = 0
     for calibration_value in fp:
-        left = get_first_digit_v2(calibration_value, trie_forwards, numbers_mapping, shortest_word)
-        right = get_first_digit_v2(calibration_value[::-1], trie_backwards, numbers_mapping_backwards, shortest_word)
+        left = get_first_digit_v2(calibration_value, trie_forwards.get_first_word, numbers_mapping)
+        right = get_first_digit_v2(calibration_value[::-1], trie_backwards.get_first_word, numbers_mapping_backwards)
         total += int(left + right)
 
 print(total)
