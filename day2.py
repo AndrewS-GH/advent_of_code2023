@@ -2,7 +2,7 @@ from functools import reduce
 import operator
 
 
-def parse_game(line: str) -> tuple[int, list[list[tuple[int, str]]]]:
+def parse_game(line: str) -> tuple[int, list[tuple[int, str]]:
     id, game_str = line.split(':')
     id = int(id.split()[-1])
 
