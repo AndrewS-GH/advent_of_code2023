@@ -26,7 +26,7 @@ def main():
     print(result)
 
     # Part 2
-    # sorry about brute forcing day 2
+    # sorry about brute forcing part 2
     # maybe later I will come back and figure out the optimal algorithm (probably not)
     with open('input', 'r') as fp:
         time = int("".join(re.findall(get_ints_pattern, fp.readline())))
